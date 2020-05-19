@@ -1,3 +1,0 @@
-SUPPORTED_SUBREDDITS = [
-    "foobar"
-]

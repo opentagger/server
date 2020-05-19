@@ -1,0 +1,10 @@
+version: 3
+
+services:
+    server:
+        build: server
+        ports: "${PORT}:80"
+    ingester:
+        build: ingester
+    redis:
+        image: 6-alpine
