@@ -3,7 +3,8 @@ version: "3"
 services:
     server:
         build: server
-        ports: "${PORT}:80"
+        ports: 
+            - "${PORT}:80"
     ingester:
         build: ingester
         environment:
