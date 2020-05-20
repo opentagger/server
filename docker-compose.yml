@@ -6,5 +6,11 @@ services:
         ports: "${PORT}:80"
     ingester:
         build: ingester
+        environment:
+            SUBREDDITS: ${SUBREDDITS}
+            CLIENT_ID: ${CLIENT_ID}
+            SECRET_ID: ${SECRET_ID}
+            USERNAME: ${USERNAME}
+            PASSWORD: ${PASSWORD}
     redis:
         image: 6-alpine

@@ -1,4 +1,4 @@
-import sys
+import os
 
 import msgpack
 import praw
@@ -8,11 +8,10 @@ from shared import ConfigData
 
 def main(subreddit_list):
     config = ConfigData()
-    subreddit_string = "+".join(subreddit_list)
     redis_client = redis.Redis(host="redis")
     reddit = praw.Reddit(user_agent=f"Ingester by /u/{config.username}", client_id=config.client_id, client_secret=config.secret_id, username=config.username, password=config.password)
 
-    subreddit_combo = reddit.subreddit(subreddit_string)
+    subreddit_combo = reddit.subreddit(subreddit_list)
 
     for comment in subreddit_combo.stream.comments():
         process_comment(comment, redis_client)
@@ -46,4 +45,4 @@ def process_comment(comment, redis_client):
     redis_client.set(comment.author.name, msgpack.packb(stored_data))
 
 if __name__ == "__main__":
-    main(sys.argv[1:]) # Slice to remove script name
+    main(os.environ["SUBREDDITS"])
