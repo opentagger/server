@@ -14,4 +14,4 @@ services:
             USERNAME: ${USERNAME}
             PASSWORD: ${PASSWORD}
     redis:
-        image: 6-alpine
+        image: redis:6-alpine
