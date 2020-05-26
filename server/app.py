@@ -1,4 +1,5 @@
 import json
+import msgpack
 import validators
 import re
 from flask import Flask, request
@@ -11,6 +12,12 @@ user_regex = re.compile(r"https?:\/\/(?:.*\.)?reddit.com\/u(?:ser)?\/(.*)")
 REDIS_URL = "redis://:@redis:6379/0"
 
 redis_client = FlaskRedis(app)
+
+def add_item_count_to_dict(d, item):
+    if item not in d:
+        d[item] = 0
+    d[item] += 1
+
 
 @app.route('/')
 def hello_world():
@@ -40,7 +47,15 @@ def get_bulk_users():
         for item in usernames:
             resp = redis_client.get(item)
             if resp:
-                pass
+                known_data = msgpack.unpackb(resp)
+                subs_dict = {}
+
+                for subredditname in known_data["submissions"]:
+                    add_item_count_to_dict(subs_dict, subredditname)
+                for subredditname in known_data["comments"]:
+                    add_item_count_to_dict(subs_dict, subredditname)
+
+                results[item] = max(subs_dict, key=subs_dict.get)
         return results
     else:
         return {"status": "Failure", "message": "You need to supply the usernames parameter."}
