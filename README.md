@@ -12,10 +12,10 @@ Highly WIP.
 * [x] Redis backend
 * [ ] Write static exporter
   * [ ] Could be a separate script
-* [ ] Write bulk server
+* [x] Write bulk server
   * [ ] Used by the userscript
-* [ ] Write user server
+* [x] Write user server
 * [ ] Write subreddit server
 * [ ] Write userscript server
   * [ ] This is a usable version of the userscript, configured for this domain.
-* [ ] Create docker deploys
+* [x] Create docker deploys
