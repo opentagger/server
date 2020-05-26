@@ -32,9 +32,11 @@ def get_bulk_users():
 
     {
         "status": "Success",
-        "username": "mostprominentsub",
-        "username2": "mostprominentsub",
-        "username3": null
+        "results" {
+            "username": "mostprominentsub",
+            "username2": "mostprominentsub",
+            "username3": null
+        }
     }
 
     If a username has a value of null, then there is no subreddit that we've been tracking they're in.
@@ -43,7 +45,8 @@ def get_bulk_users():
     """
     usernames = request.args.getlist("usernames")
     if usernames:
-        results = {"status": "Success"}
+        response = {"status": "Success"}
+        results = {}
         for item in usernames:
             resp = redis_client.get(item)
             if resp:
@@ -56,6 +59,10 @@ def get_bulk_users():
                     add_item_count_to_dict(subs_dict, subredditname)
 
                 results[item] = max(subs_dict, key=subs_dict.get)
+            else:
+                results[item] = None
+
+        response["results"] = results
         return results
     else:
         return {"status": "Failure", "message": "You need to supply the usernames parameter."}
