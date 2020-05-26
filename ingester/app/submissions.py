@@ -50,7 +50,8 @@ def process_submission(submission, redis_client):
             }
         }
     if submissions_list := stored_data["submissions"].get(submission.subreddit_name_prefixed):
-        submissions_list.append(submission.id)
+        if submission.id not in submissions_list:
+            submissions_list.append(submission.id)
     else:
         stored_data["submissions"][submission.subreddit_name_prefixed] = [submission.id]
     redis_client.set(submission.author.name, msgpack.packb(stored_data))

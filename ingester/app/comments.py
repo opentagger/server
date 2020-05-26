@@ -49,6 +49,7 @@ def process_comment(comment, redis_client):
                 # }
             }
         }
+
     if comments_list := stored_data["comments"].get(comment.subreddit_name_prefixed):
         if comment.id not in comments_list:
             comments_list.append(comment.id)
