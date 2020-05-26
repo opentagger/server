@@ -17,5 +17,5 @@ services:
     redis:
         image: redis:6-alpine
         entrypoint: redis-server --appendonly yes
-        volume:
+        volumes:
             - "${REDIS_STORAGE}:/data"
