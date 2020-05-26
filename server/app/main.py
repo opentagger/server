@@ -63,6 +63,6 @@ def get_bulk_users():
                 results[item] = None
 
         response["results"] = results
-        return results
+        return response
     else:
         return {"status": "Failure", "message": "You need to supply the usernames parameter."}
