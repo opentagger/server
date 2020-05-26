@@ -13,5 +13,6 @@ services:
             SECRET_ID: ${SECRET_ID}
             USERNAME: ${USERNAME}
             PASSWORD: ${PASSWORD}
+            LOGLEVEL: ${LOGLEVEL}
     redis:
         image: redis:6-alpine

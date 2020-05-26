@@ -4,16 +4,21 @@ import msgpack
 import praw
 import redis
 
+from logzero import logger, loglevel
+
 from shared import ConfigData
 
-def main(subreddit_list):
+def main(subreddit_list, log_level):
     config = ConfigData()
+    loglevel(log_level)
     redis_client = redis.Redis(host="redis")
     reddit = praw.Reddit(user_agent=f"Ingester by /u/{config.username}", client_id=config.client_id, client_secret=config.secret_id, username=config.username, password=config.password)
 
     subreddit_combo = reddit.subreddit(subreddit_list)
 
     for submission in subreddit_combo.stream.submissions():
+        attrs = vars(submission)
+        logger.debug(f"Received new submission: {attrs}")
         process_submission(submission, redis_client)
 
 def process_submission(submission, redis_client):
@@ -44,4 +49,4 @@ def process_submission(submission, redis_client):
     redis_client.set(submission.author.name, msgpack.packb(stored_data))
 
 if __name__ == "__main__":
-    main(os.environ["SUBREDDITS"]) # Slice to remove script name
+    main(os.environ["SUBREDDITS"], os.environ["LOGLEVEL"])

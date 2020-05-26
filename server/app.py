@@ -14,6 +14,22 @@ def hello_world():
 
 @app.route('/bulk_users')
 def get_bulk_users():
+    """
+    Bulk request users.
+
+    Returns a response formatted like this:
+
+    {
+        "status": "Success",
+        "username": "mostprominentsub",
+        "username2": "mostprominentsub",
+        "username3": null
+    }
+
+    If a username has a value of null, then there is no subreddit that we've been tracking they're in.
+
+    Most prominent subreddit is determined by total amount of tracked comments. Users that don't meet the BARRIER environment variable are removed.
+    """
     user_urls = request.args.getlist("urls")
     if user_urls:
         results = {}
