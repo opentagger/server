@@ -66,3 +66,10 @@ def get_bulk_users():
         return response
     else:
         return {"status": "Failure", "message": "You need to supply the usernames parameter."}
+
+@app.route('/user/<string:username>')
+def get_user(username):
+    response = {"status": "Success"}
+    resp = redis_client.get(username)
+    response["data"] = msgpack.unpackb(resp)
+    return response
