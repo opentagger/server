@@ -49,11 +49,11 @@ def process_comment(comment, redis_client):
                 # }
             }
         }
-    if comments_list := stored_data["comments"].get(comment.subreddit.subreddit_name_prefixed):
+    if comments_list := stored_data["comments"].get(comment.subreddit_name_prefixed):
         if comment.id not in comments_list:
             comments_list.append(comment.id)
     else:
-        stored_data["comments"][comment.subreddit.subreddit_name_prefixed] = [comment.id]
+        stored_data["comments"][comment.subreddit_name_prefixed] = [comment.id]
     redis_client.set(comment.author.name, msgpack.packb(stored_data))
 
 if __name__ == "__main__":
