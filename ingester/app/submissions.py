@@ -19,7 +19,11 @@ def main(subreddit_list, log_level):
     for submission in subreddit_combo.stream.submissions():
         attrs = vars(submission)
         logger.debug(f"Received new submission: {attrs}")
-        process_submission(submission, redis_client)
+        try:
+            process_submission(submission, redis_client)
+        except Exception as e:
+            logger.exception(e)
+            raise e
 
 def process_submission(submission, redis_client):
     stored_data = redis_client.get(submission.author.name)

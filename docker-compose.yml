@@ -16,3 +16,6 @@ services:
             LOGLEVEL: ${LOGLEVEL}
     redis:
         image: redis:6-alpine
+        entrypoint: redis-server --appendonly yes
+        volume:
+            - "${REDIS_STORAGE}:/data"

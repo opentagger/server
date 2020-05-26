@@ -19,7 +19,11 @@ def main(subreddit_list, log_level):
     for comment in subreddit_combo.stream.comments():
         attrs = vars(comment)
         logger.debug(f"Received new comment: {attrs}")
-        process_comment(comment, redis_client)
+        try:
+            process_comment(comment, redis_client)
+        except Exception as e:
+            logger.exception(e)
+            raise e
 
 def process_comment(comment, redis_client):
     stored_data = redis_client.get(comment.author.name)
