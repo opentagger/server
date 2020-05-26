@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 user_regex = re.compile(r"https?:\/\/(?:.*\.)?reddit.com\/u(?:ser)?\/(.*)")
 
-REDIS_URL = "redis://:@redis:6379/0"
+app.config["REDIS_URL"] = "redis://:@redis:6379/0"
 
 redis_client = FlaskRedis(app)
 
