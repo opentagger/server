@@ -26,6 +26,9 @@ def main(subreddit_list, log_level):
             raise e
 
 def process_comment(comment, redis_client):
+    if not comment.author: # API edge case... this happens sometimes
+        return
+
     stored_data = redis_client.get(comment.author.name)
     if stored_data:
         stored_data = msgpack.unpackb(stored_data)
@@ -46,11 +49,11 @@ def process_comment(comment, redis_client):
                 # }
             }
         }
-    if comments_list := stored_data["comments"].get(comment.subreddit.name):
+    if comments_list := stored_data["comments"].get(comment.subreddit.subreddit_name_prefixed):
         if comment.id not in comments_list:
             comments_list.append(comment.id)
     else:
-        stored_data["comments"][comment.subreddit.name] = [comment.id]
+        stored_data["comments"][comment.subreddit.subreddit_name_prefixed] = [comment.id]
     redis_client.set(comment.author.name, msgpack.packb(stored_data))
 
 if __name__ == "__main__":

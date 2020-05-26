@@ -8,8 +8,8 @@ Highly WIP.
 
 * [ ] Add config loader
   * Config options: access usernames/passwords, tracked subreddits, external domains.
-* [ ] Write automatic data ingester
-* [ ] Redis backend
+* [x] Write automatic data ingester
+* [x] Redis backend
 * [ ] Write static exporter
   * [ ] Could be a separate script
 * [ ] Write bulk server

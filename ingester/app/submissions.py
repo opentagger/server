@@ -26,6 +26,9 @@ def main(subreddit_list, log_level):
             raise e
 
 def process_submission(submission, redis_client):
+    if not submission.author: # API edge case... this happens sometimes
+        return
+
     stored_data = redis_client.get(submission.author.name)
     if stored_data:
         stored_data = msgpack.unpackb(stored_data)
@@ -46,10 +49,10 @@ def process_submission(submission, redis_client):
                 # }
             }
         }
-    if submissions_list := stored_data["submissions"].get(submission.subreddit.name):
+    if submissions_list := stored_data["submissions"].get(submission.subreddit.subreddit_name_prefixed):
         submissions_list.append(submission.id)
     else:
-        stored_data["submissions"][submission.subreddit.name] = [submission.id]
+        stored_data["submissions"][submission.subreddit.subreddit_name_prefixed] = [submission.id]
     redis_client.set(submission.author.name, msgpack.packb(stored_data))
 
 if __name__ == "__main__":
