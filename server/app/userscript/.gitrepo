@@ -6,8 +6,8 @@
 [subrepo]
 	remote = git@github.com:usertagger/userscript.git
 	branch = master
-	commit = 9acdc5f6a51041f1ce9bd053b1474d961dc2018c
-	parent = 94c4810ec05ac9861a76f258ab988d34e3068ee5
+	commit = 9c777bc16f4be226c36168a9b6ed4adf7ca35260
+	parent = 23adafa99233f163b5ec25159a3c8422900f0c73
 	method = merge
 	update = auto
 	cmdver = 0.4.1
