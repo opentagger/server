@@ -1,0 +1,13 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:usertagger/userscript.git
+	branch = master
+	commit = 9acdc5f6a51041f1ce9bd053b1474d961dc2018c
+	parent = 94c4810ec05ac9861a76f258ab988d34e3068ee5
+	method = merge
+	update = auto
+	cmdver = 0.4.1
