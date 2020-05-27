@@ -13,6 +13,9 @@ app.config["REDIS_URL"] = "redis://:@redis:6379/0"
 
 redis_client = FlaskRedis(app)
 
+with open("userscript/frontend.user.js", "r") as frontfile:
+    userscript_text = frontfile.read()
+
 def add_item_count_to_dict(d, item):
     if item not in d:
         d[item] = 0
@@ -73,3 +76,7 @@ def get_user(username):
     resp = redis_client.get(username)
     response["data"] = msgpack.unpackb(resp)
     return response
+
+@app.route('/userscript.user.js')
+def get_userscript():
+    return userscript_text.replace("__BASEURL__", request.url_root)
