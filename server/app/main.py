@@ -2,7 +2,7 @@ import json
 import msgpack
 import validators
 import re
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_redis import FlaskRedis
 
 app = Flask(__name__)
@@ -77,6 +77,6 @@ def get_user(username):
     response["data"] = msgpack.unpackb(resp)
     return response
 
-@app.route('/userscript.user.js')
+@app.route('/usertagger.script.user.js')
 def get_userscript():
-    return userscript_text.replace("__BASEURL__", request.url_root)
+    return Response(userscript_text.replace("__BASEURL__", request.url_root), mimetype="text/javascript")
